@@ -5,6 +5,7 @@ import moment from 'moment';
 import axios from 'axios';
 import './App.css';
 import CommentDetails from './components/CommentDetails';
+import EditExpense from './components/EditExpense';
 import { baseUrl } from './baseurl';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
   })
   const [editcommentmodal, setEditCommentModal] = useState(false);
   const [detailcommentmodal, setDetailCommentModal] = useState(false);
-
+  const [editexpensemodal, setEditExpenseModal] = useState(false);
 
   const [expenselist, setExpenseList] = useState([]);
   const [expensedata, setExpenseData] = useState({
@@ -70,6 +71,7 @@ function App() {
 
   const closeEditCommentModal = () => setEditCommentModal(false);
   const closeDetailCommentModal = () => setDetailCommentModal(false);
+  const closeEditExpenseModal = () => setEditExpenseModal(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -117,14 +119,18 @@ function App() {
       })
   }
 
-  const handleExpenseReceipt = (item) => {
-    const newItem = `${baseUrl}${item.bill}`
-    const url = window.URL.createObjectURL(new Blob([newItem]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'expense-receipt.pdf');
-    document.body.appendChild(link);
-    link.click();
+  // const handleExpenseReceipt = (item) => {
+  //   const newItem = `${baseUrl}${item.bill}`
+  //   const url = window.URL.createObjectURL(new Blob([newItem]));
+  //   const link = document.createElement('a');
+  //   link.href = url;
+  //   link.setAttribute('download', 'expense-receipt.pdf');
+  //   document.body.appendChild(link);
+  //   link.click();
+  // }
+
+  const handleUpdate = (id) => {
+    setEditExpenseModal(id)
   }
 
 
@@ -153,6 +159,7 @@ function App() {
             <th>Vendor Email</th>
             <th>Amount</th>
             <th>Bill</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -166,6 +173,10 @@ function App() {
                 <td><a href={`${baseUrl}${item.bill}`} download="Expense_Bill" target="_blank"
                   rel="noreferrer">{baseUrl}{item.bill}</a> </td>
                 {/* <td><button onClick={() => handleExpenseReceipt(item)}>Dowload Receipt</button></td> */}
+                <td><button className='btn btn-primary' onClick={() => handleUpdate(item._id)}>Update</button></td>
+                <Modal show={editexpensemodal === item._id ? true : false} onHide={closeEditExpenseModal}>
+                  <EditExpense data={item} id={item._id} closeEditExpenseModal={closeEditExpenseModal} />
+                </Modal>
               </tr>
 
             )

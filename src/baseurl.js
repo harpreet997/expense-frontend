@@ -1,1 +1,1 @@
-export const baseUrl = 'https://expense-api-2wfx.onrender.com'
+export const baseUrl = 'https://expense-api-production.up.railway.app'
