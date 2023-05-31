@@ -1,0 +1,1 @@
+export const baseUrl = 'https://expense-api-2wfx.onrender.com'
