@@ -36,9 +36,10 @@ const EditExpense = ({ data, id, closeEditExpenseModal }) => {
         formdata.append('Amount', editexpensedata.Amount)
         formdata.append('bill', editexpensedata.bill)
         console.log(formdata);
-        axios.patch(`http://localhost:4000/api/expenses/${id}`, formdata)
+        axios.patch(`${baseUrl}/api/expenses/${id}`, formdata)
             .then((response) => {
                 alert(response.data.msg);
+                closeEditExpenseModal();
                 window.location.reload(false);
             })
             .catch((error) => {
